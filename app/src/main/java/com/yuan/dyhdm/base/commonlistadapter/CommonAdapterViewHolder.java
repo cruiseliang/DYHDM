@@ -1,4 +1,4 @@
-package com.yuan.dyhdm.adapter;
+package com.yuan.dyhdm.base.commonlistadapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,31 +9,33 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 /**
- * created by liangxuedong on 2020/12/15
+ * Created by fang on 2019/2/22.
  */
-public class ViewHolder {
 
+public class CommonAdapterViewHolder {
     private final SparseArray<View> mViews;
-    private View mConvertView;
-
     private int mPosition;
+    private View mConvertView;
+    private Context  context;
 
-    private ViewHolder(Context context, ViewGroup parent, int layoutId,
-                       int position)
+    private CommonAdapterViewHolder(Context context, ViewGroup parent, int layoutId,
+                                    int position)
     {
+        this.context=context;
         this.mPosition = position;
         this.mViews = new SparseArray<View>();
         mConvertView = LayoutInflater.from(context).inflate(layoutId, parent,
                 false);
-        //setTag
+        // setTag
         mConvertView.setTag(this);
-
-
     }
 
     /**
      * 拿到一个ViewHolder对象
+     *
      * @param context
      * @param convertView
      * @param parent
@@ -41,26 +43,29 @@ public class ViewHolder {
      * @param position
      * @return
      */
-    public static ViewHolder get(Context context, View convertView,
+    public static CommonAdapterViewHolder get(Context context, View convertView,
                                  ViewGroup parent, int layoutId, int position)
     {
-
         if (convertView == null)
         {
-            return new ViewHolder(context, parent, layoutId, position);
+            return new CommonAdapterViewHolder(context, parent, layoutId, position);
         }
-        return (ViewHolder) convertView.getTag();
+        return (CommonAdapterViewHolder) convertView.getTag();
     }
 
+    public View getConvertView()
+    {
+        return mConvertView;
+    }
 
     /**
      * 通过控件的Id获取对于的控件，如果没有则加入views
+     *
      * @param viewId
      * @return
      */
     public <T extends View> T getView(int viewId)
     {
-
         View view = mViews.get(viewId);
         if (view == null)
         {
@@ -70,12 +75,6 @@ public class ViewHolder {
         return (T) view;
     }
 
-    public View getConvertView()
-    {
-        return mConvertView;
-    }
-
-
     /**
      * 为TextView设置字符串
      *
@@ -83,7 +82,7 @@ public class ViewHolder {
      * @param text
      * @return
      */
-    public ViewHolder setText(int viewId, String text)
+    public CommonAdapterViewHolder setText(int viewId, String text)
     {
         TextView view = getView(viewId);
         view.setText(text);
@@ -97,7 +96,7 @@ public class ViewHolder {
      * @param drawableId
      * @return
      */
-    public ViewHolder setImageResource(int viewId, int drawableId)
+    public CommonAdapterViewHolder setImageResource(int viewId, int drawableId)
     {
         ImageView view = getView(viewId);
         view.setImageResource(drawableId);
@@ -109,13 +108,13 @@ public class ViewHolder {
      * 为ImageView设置图片
      *
      * @param viewId
-     * @param drawableId
+     * @param bm
      * @return
      */
-    public ViewHolder setImageBitmap(int viewId, Bitmap drawableId)
+    public CommonAdapterViewHolder setImageBitmap(int viewId, Bitmap bm)
     {
         ImageView view = getView(viewId);
-        view.setImageBitmap(drawableId);
+        view.setImageBitmap(bm);
         return this;
     }
 
@@ -126,10 +125,9 @@ public class ViewHolder {
      * @param url
      * @return
      */
-    public ViewHolder setImageByUrl(int viewId, String url)
+    public CommonAdapterViewHolder setImageByUrl(int viewId, String url)
     {
-//        ImageLoader.getInstance(3, Type.LIFO).loadImage(url,
-//                (ImageView) getView(viewId));
+        Glide.with(context).load(url).into((ImageView) getView(viewId));
         return this;
     }
 
@@ -137,7 +135,5 @@ public class ViewHolder {
     {
         return mPosition;
     }
-
-
 
 }
