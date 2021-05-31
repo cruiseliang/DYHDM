@@ -2,53 +2,55 @@ package com.yuan.dyhdm.base.commonrvadapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.yuan.dyhdm.base.commonlistadapter.ViewHolder;
 
 import java.util.List;
 
 /**
  * Created by zhy on 16/4/9.
  */
-public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T>
+public abstract class CommonAdapter<T>  extends RecyclerView.Adapter<RcyViewHolder>
 {
     protected Context mContext;
     protected int mLayoutId;
     protected List<T> mDatas;
     protected LayoutInflater mInflater;
 
-    public CommonAdapter(final Context context, final int layoutId, List<T> datas)
+
+    public CommonAdapter(Context context, int layoutId, List<T> datas)
     {
-        super(context, datas);
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mLayoutId = layoutId;
         mDatas = datas;
-
-        addItemViewDelegate(new ItemViewDelegate<T>()
-        {
-            @Override
-            public int getItemViewLayoutId()
-            {
-                return layoutId;
-            }
-
-            @Override
-            public boolean isForViewType( T item, int position)
-            {
-                return true;
-            }
-
-            @Override
-            public void convert(RcyViewHolder holder, T t, int position)
-            {
-                CommonAdapter.this.convert(holder, t, position);
-            }
-        });
     }
 
-    protected abstract void convert(RcyViewHolder holder, T t, int position);
+    @Override
+    public RcyViewHolder onCreateViewHolder(final ViewGroup parent, int viewType)
+    {
+        RcyViewHolder viewHolder = RcyViewHolder.createViewHolder(mContext, parent, mLayoutId);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(RcyViewHolder holder, int position)
+    {
+        convert(holder, mDatas.get(position));
+    }
+
+    public abstract void convert(RcyViewHolder holder, T t);
+
+    @Override
+    public int getItemCount()
+    {
+        return mDatas.size();
+    }
+
 
 
 }

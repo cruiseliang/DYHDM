@@ -3,6 +3,7 @@ package com.yuan.dyhdm.entity;
 
 
 import com.yuan.dyhdm.R;
+import com.yuan.dyhdm.common.Constans;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class ChatMessage
 		return viewType;
 	}
 
-	private int viewType;
+	private int viewType=0;
 
 	public final static int RECIEVE_MSG = 0;
 	public final static int SEND_MSG = 1;
@@ -105,19 +106,19 @@ public class ChatMessage
 	static {
 		ChatMessage msg = null;
 		msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you1 ",
-				null, false,1);
+				null, false, Constans.CHAT_TYPE_1);
 		MOCK_DATAS.add(msg);
 		msg = new ChatMessage(R.drawable.renma, "renma", "where are you2 ",
-				null, true,2);
+				null, true,Constans.CHAT_TYPE_2);
 		MOCK_DATAS.add(msg);
 		msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you3 ",
-				null, false,1);
+				null, false,Constans.CHAT_TYPE_1);
 		MOCK_DATAS.add(msg);
 		msg = new ChatMessage(R.drawable.renma, "renma", "where are you4 ",
-				null, true,2);
+				null, true,Constans.CHAT_TYPE_2);
 		MOCK_DATAS.add(msg);
 		msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you5 ",
-				null, false,1);
+				null, false,Constans.CHAT_TYPE_1);
 		MOCK_DATAS.add(msg);
 
 		msg = new ChatMessage(R.drawable.xiaohei, "xiaohei", "where are you 6",

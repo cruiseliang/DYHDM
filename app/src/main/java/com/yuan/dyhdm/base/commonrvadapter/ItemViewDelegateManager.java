@@ -66,36 +66,13 @@ public class ItemViewDelegateManager<T>
         return this;
     }
 
-    public int getItemViewType(T item, int position)
-    {
-        int delegatesCount = delegates.size();
-        for (int i = delegatesCount - 1; i >= 0; i--)
-        {
-            ItemViewDelegate<T> delegate = delegates.valueAt(i);
-            if (delegate.isForViewType( item, position))
-            {
-                return delegates.keyAt(i);
-            }
-        }
-        throw new IllegalArgumentException(
-                "No ItemViewDelegate added that matches position=" + position + " in data source");
-    }
 
-    public void convert(RcyViewHolder holder, T item, int position)
+    public void convert(RcyViewHolder holder, T item, int position,int viewType)
     {
-        int delegatesCount = delegates.size();
-        for (int i = 0; i < delegatesCount; i++)
-        {
-            ItemViewDelegate<T> delegate = delegates.valueAt(i);
-
-            if (delegate.isForViewType( item, position))
-            {
-                delegate.convert(holder, item, position);
-                return;
-            }
+        ItemViewDelegate<T> delegate = delegates.valueAt(viewType);
+        if (delegate!=null){
+            delegate.convert(holder, item, position);
         }
-        throw new IllegalArgumentException(
-                "No ItemViewDelegateManager added that matches position=" + position + " in data source");
     }
 
 
@@ -104,13 +81,4 @@ public class ItemViewDelegateManager<T>
         return delegates.get(viewType);
     }
 
-    public int getItemViewLayoutId(int viewType)
-    {
-        return getItemViewDelegate(viewType).getItemViewLayoutId();
-    }
-
-    public int getItemViewType(ItemViewDelegate itemViewDelegate)
-    {
-        return delegates.indexOfValue(itemViewDelegate);
-    }
 }

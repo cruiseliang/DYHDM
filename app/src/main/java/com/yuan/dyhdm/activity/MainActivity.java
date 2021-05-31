@@ -20,7 +20,7 @@ public class MainActivity extends BaseActivity {
 
     private ListView mListView;
     private List<String> mDatas = new ArrayList<String>(Arrays.asList("multitemlistview",
-            "World", "Welcome"));
+            "multircylist", "Welcome"));
     private MyAdapter mAdapter;
 
 
@@ -44,11 +44,16 @@ public class MainActivity extends BaseActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position==0){
-                    startActivity(new Intent(MainActivity.this,ListActivity.class));
-
+                switch (position){
+                    case 0:
+                        startActivity(new Intent(MainActivity.this,ListActivity.class));
+                        break;
+                    case 1:
+                        startActivity(new Intent(MainActivity.this,RcyActivity.class));
+                        break;
+                    default:
+                        break;
                 }
-
             }
         });
 
