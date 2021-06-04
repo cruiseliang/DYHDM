@@ -21,6 +21,8 @@
         <activity android:name=".activity.ListActivity"/>
         <activity android:name=".activity.RcyActivity"/>
         <activity android:name=".activity.KotlinActivity"/>
+        <activity android:name=".activity.MaterialDesign"/>
+        <activity android:name=".activity.JetpackAct"/>
         <service android:name=".service.MyService"
             android:enabled="true"
             android:exported="false"/>
