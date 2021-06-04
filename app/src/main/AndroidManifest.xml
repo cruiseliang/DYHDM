@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".MyApplication"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity">
             <intent-filter>
@@ -19,6 +20,10 @@
 
         <activity android:name=".activity.ListActivity"/>
         <activity android:name=".activity.RcyActivity"/>
+        <activity android:name=".activity.KotlinActivity"/>
+        <service android:name=".service.MyService"
+            android:enabled="true"
+            android:exported="false"/>
     </application>
 
 </manifest>

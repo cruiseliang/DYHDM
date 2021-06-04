@@ -20,7 +20,7 @@ public class MainActivity extends BaseActivity {
 
     private ListView mListView;
     private List<String> mDatas = new ArrayList<String>(Arrays.asList("multitemlistview",
-            "multircylist", "Welcome"));
+            "multircylist", "kotlin"));
     private MyAdapter mAdapter;
 
 
@@ -50,6 +50,9 @@ public class MainActivity extends BaseActivity {
                         break;
                     case 1:
                         startActivity(new Intent(MainActivity.this,RcyActivity.class));
+                        break;
+                    case 2:
+                        startActivity(new Intent(MainActivity.this,KotlinActivity.class));
                         break;
                     default:
                         break;

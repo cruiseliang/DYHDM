@@ -3,4 +3,18 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+
+    <color name="color_Red">#F84440</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="color_colorTransparent">#00000000</color>
+
+    <color name="color_ff3e60">#ff3e60</color>
+    <color name="color_ffa200">#ffa200</color>
+    <color name="color_31cc64">#31cc64</color>
+    <color name="color_3377ff">#3377ff</color>
+
+
+
+
 </resources>
