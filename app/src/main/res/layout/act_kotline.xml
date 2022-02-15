@@ -37,11 +37,19 @@
 
 
 
+    <com.yuan.dyhdm.view.PieGraphView
+        android:id="@+id/pieGv"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
 
     <com.yuan.dyhdm.view.RingView
         android:id="@+id/ringView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_marginTop="40dp"
+        android:layout_height="match_parent"/>
+
+
 
     <TextView
         android:id="@+id/tv_title"

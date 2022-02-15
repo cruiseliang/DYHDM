@@ -1,6 +1,7 @@
 package com.yuan.dyhdm.activity
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import com.yuan.dyhdm.R
@@ -40,6 +41,22 @@ class MaterialDesign : BaseActivity() {
                 Toast.makeText(this, "dataddddd", Toast.LENGTH_SHORT).show()
             }.show()
         }
+    }
+
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun registerListener() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initData() {
+        TODO("Not yet implemented")
+    }
+
+    override fun widgetClick(v: View?) {
+        TODO("Not yet implemented")
     }
 
 

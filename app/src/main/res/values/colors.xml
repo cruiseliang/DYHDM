@@ -13,8 +13,11 @@
     <color name="color_ffa200">#ffa200</color>
     <color name="color_31cc64">#31cc64</color>
     <color name="color_3377ff">#3377ff</color>
+    <color name="color_222222">#222222</color>
 
+    <color name="blue_04">#6c96c6</color>
 
-
+    <color name="color_D8D8D8">#D8D8D8</color>
+    <color name="color_4C4C4C">#4C4C4C</color>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.yuan.dyhdm.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import com.yuan.dyhdm.R;
@@ -19,14 +20,29 @@ public class ListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_list);
 
-        initView();
     }
 
-    private void initView() {
+    @Override
+    public void initView() {
         id_lv_list=findViewById(R.id.id_lv_list);
 
 
         id_lv_list.setDivider(null);
         id_lv_list.setAdapter(new ChatAdapter(this, ChatMessage.MOCK_DATAS));
+    }
+
+    @Override
+    public void registerListener() {
+
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
+    @Override
+    public void widgetClick(View v) {
+
     }
 }

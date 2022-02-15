@@ -20,6 +20,13 @@ fun main(){
         println("codes run in scope")
         delay(500)
         println("codes run in scope finished")
+        launch {
+            delay(100)
+        }
+
+        launch {
+            delay(100)
+        }
     }
     //  suspend 挂起函数 不创建子协程
     suspend fun printDot(){
@@ -48,4 +55,12 @@ fun main(){
         }.await()
         println(result)
     }
+
+    runBlocking {
+        val result2= withContext(Dispatchers.Default){
+            6-9
+        }
+        println(result2)
+    }
+
 }

@@ -13,6 +13,9 @@ class Student(val sno:String, val grade:Int) :Person(),Study {
     override fun doHomework() {
         TODO("Not yet implemented")
     }
+    init {
+
+    }
 
 
 }

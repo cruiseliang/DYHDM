@@ -43,6 +43,11 @@ fun methodname(param1: Int, param2: Int): Int {
     return max(param1, param2)
 }
 
+fun largeNumber1(param1: Int,param2: Int):Int{
+    return max(param1,param2)
+}
+
+//语法糖简化
 fun maxNumber(param1: Int, param2: Int): Int = max(param1, param2)
 
 //条件语句 if 和java相同
@@ -67,19 +72,20 @@ fun largeNunber2(param2: Int, param1: Int): Int {
 }
 
 fun largeNunber3(param2: Int, param1: Int): Int =
-        if (param1 > param2) {
-            param1
+    if (param1 > param2) {
+        param1
 
-        } else {
-            param2
+    } else {
+        param2
 
-        }
+    }
 
 fun largeNunber4(param2: Int, param1: Int): Int =
-        if (param1 > param2)
-            param1
-        else
-            param2
+    if (param1 > param2)
+        param1
+    else
+        param2
+fun lar(param2: Int, param1: Int): Int =if (param1>param1)param1 else param2
 
 //when语句 switch  强于switch
 //when 有返回值 可以单行语法糖
@@ -95,6 +101,7 @@ fun getScore(name: String) = when (name) {
     }
     else -> 9
 }
+//is 关键字   类似java instanceof
 
 fun chechNumber(number: Number) {
     when (number) {
@@ -128,7 +135,14 @@ fun getScore2(name: String) = when {
     else -> 9
 }
 
-//循环语句 while for  区间
+//循环语句 while 和java一样
+// for循环特殊    区间
+//for in 循环
+//0..10 [0，10] 双端闭合区间   downto 降序 10 dawnTo 1 [10,1]
+// 左闭右开区间 0 until 10  [0,10) 升序
+//step
+
+
 val range = 0..10
 val rang2 = 0 until 11
 fun forMehtod() {

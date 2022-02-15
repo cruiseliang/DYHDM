@@ -11,30 +11,34 @@ import com.yuan.dyhdm.adapter.MyAdapter;
 import com.yuan.dyhdm.base.BaseActivity;
 import com.yuan.dyhdm.base.commonlistadapter.CommonAdapterForListView;
 import com.yuan.dyhdm.base.commonlistadapter.CommonAdapterViewHolder;
+import com.yuan.dyhdm.entity.HomeNavigationInfo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
     private ListView mListView;
-    private List<String> mDatas = new ArrayList<String>(Arrays.asList("multitemlistview",
-            "multircylist", "kotlin","MaterialDesign","JetpackAct"));
-    private MyAdapter mAdapter;
 
+    private MyAdapter mAdapter;
+    private List<HomeNavigationInfo> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mListView = (ListView) findViewById(R.id.id_lv_main);
+    }
+
+    @Override
+    public  void initData() {
+        initListData();
+
 //        mListView.setAdapter(mAdapter = new MyAdapter(this, mDatas));
-        mListView.setAdapter(new CommonAdapterForListView<String>(mContext, mDatas, R.layout.item_lv_mainact) {
+        mListView.setAdapter(new CommonAdapterForListView<HomeNavigationInfo>(mContext, mList, R.layout.item_lv_mainact) {
             @Override
-            public void convert(CommonAdapterViewHolder holder, String item, int position) {
-                holder.setText(R.id.tv_title, item);
+            public void convert(CommonAdapterViewHolder holder, HomeNavigationInfo item, int position) {
+                holder.setText(R.id.tv_title, item.title);
 //                TextView tvTitle=holder.getView(R.id.tv_title);
 //                tvTitle.setText(item);
             }
@@ -44,27 +48,39 @@ public class MainActivity extends BaseActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
-                    case 0:
-                        startActivity(new Intent(MainActivity.this,ListActivity.class));
-                        break;
-                    case 1:
-                        startActivity(new Intent(MainActivity.this,RcyActivity.class));
-                        break;
-                    case 2:
-                        startActivity(new Intent(MainActivity.this,KotlinActivity.class));
-                        break;
-                    case 3:
-                        startActivity(new Intent(MainActivity.this,MaterialDesign.class));
-                        break;
-                    case 4:
-                        startActivity(new Intent(MainActivity.this,JetpackAct.class));
-                        break;
-                    default:
-                        break;
-                }
+
+                startActivity(new Intent(MainActivity.this, mList.get(position).cls));
+
             }
         });
+    }
+
+    @Override
+    public void widgetClick(View v) {
 
     }
+
+    @Override
+    public  void initView() {
+        mListView = (ListView) findViewById(R.id.id_lv_main);
+    }
+
+    @Override
+    public void registerListener() {
+
+    }
+
+
+    private void  initListData(){
+
+        mList=new ArrayList<>();
+        mList.add(new HomeNavigationInfo("multitemlistview",ListActivity.class));
+        mList.add(new HomeNavigationInfo("multircylist",RcyActivity.class));
+        mList.add(new HomeNavigationInfo("kotlin",KotlinActivity.class));
+        mList.add(new HomeNavigationInfo("MaterialDesign",MaterialDesign.class));
+        mList.add(new HomeNavigationInfo("JetpackAct",JetpackAct.class));
+        mList.add(new HomeNavigationInfo("自定义view",ZDYViewActivity.class));
+        mList.add(new HomeNavigationInfo("自定义scrollview",ScrollviewActivity.class));
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.yuan.dyhdm.activity
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.yuan.dyhdm.R
@@ -37,7 +38,23 @@ class JetpackAct : BaseActivity() {
 
     }
 
-   private  fun refreshCounter(){
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun registerListener() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initData() {
+        TODO("Not yet implemented")
+    }
+
+    override fun widgetClick(v: View?) {
+        TODO("Not yet implemented")
+    }
+
+    private  fun refreshCounter(){
        tv_jet_info.text=mJetMv.count.toString()
    }
 

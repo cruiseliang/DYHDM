@@ -51,7 +51,6 @@ public class PieGraphView extends View {
     private RectF mTitleRect = new RectF();
     private Paint mPaintOuter, mPaintInner, mTextPaint, mItemCenterPaint;
     private Animation mAnimShowOut;
-    private Animation mAnimRotate;
     private Animation mAnimGrow;
     private int mGrowMode = GROW_MODE_MOVE_OUT;
     /**
@@ -65,14 +64,13 @@ public class PieGraphView extends View {
     private int[] colors; //
     private float[] angles;
     private float mShowOutProgress = 1f;
-    private int mRotateDelta;
-    private float mRotateAnimProgress;
+
     private int mAnimMode = ANIM_MODE_NONE;
     private int mCurrentItem = -1;
     private int mCurrentGroup;
     private Point mItemCenter = new Point();
-    private int mRotateDuration = 5000;
-    private int mGrowDuration = 200;
+
+    private int mGrowDuration = 2000;
     private int mShowOutDuration = 5000;
     private GroupInfo[] mGroupViewInfos;
     private ItemGroup[] mGroups;
@@ -121,30 +119,7 @@ public class PieGraphView extends View {
         };
         mAnimShowOut.setDuration(mShowOutDuration);
 
-        mAnimRotate = new Animation() {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                mRotateAnimProgress = interpolatedTime;
-                // 旋转操作可以通过改变开始绘制的角度，也可以旋转整个View
-                // 设置旋转角度后会使得可点击区域不再是沿着水平/竖直方向的正方形，所以不采用
-                invalidate();
 
-                if (interpolatedTime >= 1.0f) {
-                    cancel();
-                    // mAnimMode = ANIM_MODE_NONE;
-                    setRotation(mRotation + mRotateDelta);
-                    mRotateDelta = 0;
-
-                    post(new Runnable() {
-                        @Override
-                        public void run() {
-                            growItem(mCurrentItem);
-                        }
-                    });
-                }
-            }
-        };
-        mAnimRotate.setDuration(mRotateDuration);
 
         mAnimGrow = new Animation() {
             @Override
@@ -322,9 +297,10 @@ public class PieGraphView extends View {
      * @param progress 进度 0~1
      */
     private void animDrawProceed(Canvas canvas, float progress) {
-        float rotatedStart = this.mStartAngle;
+        float rotatedStart = -90;
         float end = rotatedStart + 360f * progress;
         drawPieFromEnd(canvas, rotatedStart, end);
+//        drawPieFromStart(canvas, rotatedStart, end);
     }
 
     /**
@@ -333,7 +309,7 @@ public class PieGraphView extends View {
      * @param canvas onDraw中得到的画布
      */
     private void drawRotatedPie(Canvas canvas) {
-        int currentRotate = mRotation + (int) (mRotateAnimProgress * mRotateDelta);
+        int currentRotate = mRotation ;
         float rotatedStart = this.mStartAngle + currentRotate;
         float end = rotatedStart + 360f;
         drawPieFromEnd(canvas, rotatedStart, end);
@@ -371,123 +347,43 @@ public class PieGraphView extends View {
         }
     }
 
+
     /**
-     * 让整个圆旋转到targetDegree的角度，旋转是相对mStartAngle开始绘制的圆而言
+     * 从头部开始绘制圆环，只绘制endAngle到startAngle之间的，不一定绘制所有圆环。
      *
-     * @param targetDegree 应该介于0-360，是从第一个扇形片段作为0度算出来的角度，不是从X正轴开始的角度
-     * @param smartRotate  是否抄近路旋转？
+     * @param canvas
+     * @param startAngle
+     * @param endAngle
      */
-    private void rotateToDegree(float targetDegree, boolean smartRotate) {
-        // 使得 targetDegree 介于0-360
-        targetDegree = (targetDegree + 360) % 360;
-        int targetRotate = (int) -targetDegree;
+    private void drawPieFromStart(Canvas canvas, float startAngle, float endAngle) {
+        if (angles == null) return;
+        for (int i =0;i<= angles.length - 1; i++) {
+            float itemAngle = angles[i] + 0.5f;
+            float sweepStart = endAngle - itemAngle;
+            mPaintOuter.setColor(colors[i]);
 
-        mRotateDelta = targetRotate - mRotation;
-        mRotateDelta = mRotateDelta % 360;
-
-        if (smartRotate) {
-            // 将旋转控制在180度内
-            if (mRotateDelta > 180) {
-                mRotateDelta = mRotateDelta - 360;
-            } else if (mRotateDelta < -180) {
-                mRotateDelta = 360 + mRotateDelta;
-            }
-        }
-
-        runAnimRotate();
-    }
-
-    private void runAnimRotate() {
-        mAnimMode = ANIM_MODE_ROTATE;
-        clearAnimation();
-        mAnimRotate.cancel();
-        startAnimation(mAnimRotate);
-    }
-
-    private float calcCenter(int itemIndex) {
-        float centerDegree = 0;
-
-        if (itemIndex == 0) {
-            centerDegree = angles[0] / 2;
-        } else if (itemIndex == angles.length - 1) {
-            centerDegree = 360 - angles[angles.length - 1] / 2;
-        } else {
-            for (int i = 0; i < itemIndex; i++) {
-                centerDegree += angles[i];
-            }
-            centerDegree += angles[itemIndex] / 2;
-        }
-
-        return centerDegree;
-    }
-
-    private int calcClickItem(float x, float y) {
-        if (angles == null) return -1;
-        final float centerX = mBigOval.centerX();
-        final float centerY = mBigOval.centerY();
-        float outerRadius = mBigOval.width() / 2;
-        float innerRadius = mSmallOval.width() / 2;
-
-        // 计算点击的坐标(x, y)和圆中心点形成的角度，角度从0-360，顺时针增加
-        int clickedDegree = GeomTool.calcAngle(x, y, centerX, centerY);
-        double clickRadius = GeomTool.calcDistance(x, y, centerX, centerY);
-
-        // 判断是否刚好点击角度在当前选择的item的范围？这时圆环的宽度需要特别处理
-        float currentItemHalfAngle = (angles[mCurrentItem] - 2 * mGrownPieGap) / 2f;
-        float currentItemStartAngle = mStartAngle - currentItemHalfAngle;
-        float currentItemEndAngle = mStartAngle + currentItemHalfAngle;
-
-        if (clickedDegree < currentItemEndAngle && clickedDegree > currentItemStartAngle) {
-            // 重新计算innerRadius、outerRadius ** 点击处理的时候动画肯定结束了
-            if (mGrowMode == GROW_MODE_MOVE_OUT) {
-                innerRadius += mGrownWidth;
-                outerRadius += mGrownWidth;
-            } else if (mGrowMode == GROW_MODE_BOLD) {
-                outerRadius += mGrownWidth;
-            }
-
-            if (clickRadius < outerRadius && clickRadius > innerRadius) {
-                return mCurrentItem;
-            }
-        }
-
-        if (clickRadius < innerRadius) {
-            // 点击发生在小圆内部，也就是点击到标题区域
-            onTitleRegionClicked();
-            return -1;
-        } else if (clickRadius > outerRadius) {
-            // 点击发生在大圆环外
-            return -2;
-        }
-
-        // 计算出来的clickedDegree是整个View原始的，被点击item需要考虑startAngle。
-        int startAngle = mStartAngle + mRotation;
-        int angleStart = startAngle;
-        for (int i = 0; i < angles.length; i++) {
-            int itemStart = (angleStart + 360) % 360;
-            float end = itemStart + angles[i];
-            if (end >= 360f) {
-                if (clickedDegree >= itemStart && clickedDegree < 360) return i;
-                if (clickedDegree >= 0 && clickedDegree < (end - 360)) return i;
+            float radius = mSmallOval.width() / 2f + mRingWidth / 2f;
+            if (sweepStart >= startAngle) {
+                canvas.drawArc(mBigOval, sweepStart, itemAngle, true, mPaintOuter);
+                int middleAngle = (int) (sweepStart + itemAngle / 2);
+                calcAngleMiddleInRing(middleAngle, radius, mItemCenter);
+                drawItemCenterIcon(canvas, middleAngle, colors[i], mItemCenter);
             } else {
-                if (clickedDegree >= itemStart && clickedDegree < end) {
-                    return i;
-                }
+                itemAngle = endAngle - startAngle;
+                int middleAngle = (int) (startAngle + itemAngle / 2);
+                canvas.drawArc(mBigOval, startAngle, itemAngle, true, mPaintOuter);
+                calcAngleMiddleInRing(middleAngle, radius, mItemCenter);
+                drawItemCenterIcon(canvas, middleAngle , colors[i], mItemCenter);
+                break;
             }
-
-            angleStart += angles[i];
+            endAngle -= itemAngle;
         }
-
-        return -3;
     }
 
-    private void onTitleRegionClicked() {
-        showOutGroup((mCurrentGroup + 1) % mGroups.length);
-    }
+
 
     private void showOutGroup(int index) {
         mRotation = 0;
-        mRotateDelta = 0;
         mCurrentItem = 0;
         mCurrentGroup = index;
         if (mGroups == null) return;
@@ -514,17 +410,7 @@ public class PieGraphView extends View {
         startAnimation(mAnimGrow);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && mAnimMode == ANIM_MODE_NONE) {
-            int item = calcClickItem(event.getX(), event.getY());
-            if (item >= 0 && item < angles.length) {
-                setCurrentItem(item, true);
-            }
-        }
 
-        return super.onTouchEvent(event);
-    }
 
     private void setCurrentItem(int item, boolean smartRotate) {
         if (mCurrentItem != item) {
@@ -648,5 +534,99 @@ public class PieGraphView extends View {
         if (factor <= 0) return;
         factor = GeomTool.clamp(factor, 0f, 0.2f);
         mGrowWidthFactor = factor;
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN && mAnimMode == ANIM_MODE_NONE) {
+            int item = calcClickItem(event.getX(), event.getY());
+            if (item >= 0 && item < angles.length) {
+                setCurrentItem(item, true);
+            }
+        }
+
+        return super.onTouchEvent(event);
+    }
+
+    private float calcCenter(int itemIndex) {
+        float centerDegree = 0;
+
+        if (itemIndex == 0) {
+            centerDegree = angles[0] / 2;
+        } else if (itemIndex == angles.length - 1) {
+            centerDegree = 360 - angles[angles.length - 1] / 2;
+        } else {
+            for (int i = 0; i < itemIndex; i++) {
+                centerDegree += angles[i];
+            }
+            centerDegree += angles[itemIndex] / 2;
+        }
+
+        return centerDegree;
+    }
+
+    private int calcClickItem(float x, float y) {
+        if (angles == null) return -1;
+        final float centerX = mBigOval.centerX();
+        final float centerY = mBigOval.centerY();
+        float outerRadius = mBigOval.width() / 2;
+        float innerRadius = mSmallOval.width() / 2;
+
+        // 计算点击的坐标(x, y)和圆中心点形成的角度，角度从0-360，顺时针增加
+        int clickedDegree = GeomTool.calcAngle(x, y, centerX, centerY);
+        double clickRadius = GeomTool.calcDistance(x, y, centerX, centerY);
+
+        // 判断是否刚好点击角度在当前选择的item的范围？这时圆环的宽度需要特别处理
+        float currentItemHalfAngle = (angles[mCurrentItem] - 2 * mGrownPieGap) / 2f;
+        float currentItemStartAngle = mStartAngle - currentItemHalfAngle;
+        float currentItemEndAngle = mStartAngle + currentItemHalfAngle;
+
+        if (clickedDegree < currentItemEndAngle && clickedDegree > currentItemStartAngle) {
+            // 重新计算innerRadius、outerRadius ** 点击处理的时候动画肯定结束了
+            if (mGrowMode == GROW_MODE_MOVE_OUT) {
+                innerRadius += mGrownWidth;
+                outerRadius += mGrownWidth;
+            } else if (mGrowMode == GROW_MODE_BOLD) {
+                outerRadius += mGrownWidth;
+            }
+
+            if (clickRadius < outerRadius && clickRadius > innerRadius) {
+                return mCurrentItem;
+            }
+        }
+
+        if (clickRadius < innerRadius) {
+            // 点击发生在小圆内部，也就是点击到标题区域
+            onTitleRegionClicked();
+            return -1;
+        } else if (clickRadius > outerRadius) {
+            // 点击发生在大圆环外
+            return -2;
+        }
+
+        // 计算出来的clickedDegree是整个View原始的，被点击item需要考虑startAngle。
+        int startAngle = mStartAngle + mRotation;
+        int angleStart = startAngle;
+        for (int i = 0; i < angles.length; i++) {
+            int itemStart = (angleStart + 360) % 360;
+            float end = itemStart + angles[i];
+            if (end >= 360f) {
+                if (clickedDegree >= itemStart && clickedDegree < 360) return i;
+                if (clickedDegree >= 0 && clickedDegree < (end - 360)) return i;
+            } else {
+                if (clickedDegree >= itemStart && clickedDegree < end) {
+                    return i;
+                }
+            }
+
+            angleStart += angles[i];
+        }
+
+        return -3;
+    }
+
+    private void onTitleRegionClicked() {
+        showOutGroup((mCurrentGroup + 1) % mGroups.length);
     }
 }

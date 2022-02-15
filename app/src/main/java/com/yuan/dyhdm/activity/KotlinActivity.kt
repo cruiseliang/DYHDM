@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
+import com.yuan.dyhdm.MyApplication
 import com.yuan.dyhdm.R
 import com.yuan.dyhdm.`interface`.BookService
 import com.yuan.dyhdm.adapter.lv.ChatAdapter
@@ -22,6 +23,9 @@ import com.yuan.dyhdm.entity.ChatMessage
 import com.yuan.dyhdm.utils.doSomething
 import com.yuan.dyhdm.utils.open
 import com.yuan.dyhdm.utils.startActivity2
+import com.yuan.dyhdm.view.PieGraphView
+import com.yuan.dyhdm.view.PieGraphView.ItemChangeListener
+import com.yuan.dyhdm.view.PieGraphViewCopy
 import kotlinx.android.synthetic.main.act_kotline.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,8 +34,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.*
 import kotlin.concurrent.thread
+import androidx.core.content.edit as edit1
 
-class KotlinActivity : Activity(), View.OnClickListener {
+class KotlinActivity : Activity(), View.OnClickListener,ItemChangeListener {
 
     private lateinit var msg: String
 
@@ -55,7 +60,11 @@ class KotlinActivity : Activity(), View.OnClickListener {
 
     //单行
     var colorList = ArrayList<Int>();
-    var rateList = ArrayList<Float>();
+    var rateList =  ArrayList<Float>()
+
+    private val colors = intArrayOf(-0x64245, -0xc93a0, -0x316c28, -0x504001, -0x4d2025, -0xff533f, -0x3223c7, -0xda64dc)
+
+    private var colorIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,17 +81,62 @@ class KotlinActivity : Activity(), View.OnClickListener {
 
         // 添加的是颜色
 
+        colorList.add(R.color.color_ffa200);
+        colorList.add(R.color.color_31cc64);
+        colorList.add(R.color.color_3377ff);
+
         colorList.add(R.color.color_ff3e60);
         colorList.add(R.color.color_ffa200);
         colorList.add(R.color.color_31cc64);
         colorList.add(R.color.color_3377ff);
 
         //  添加的是百分比
+
+        rateList.add(15f);
+        rateList.add(5f);
+        rateList.add(40f);
         rateList.add(10f);
         rateList.add(5f);
-        rateList.add(45f);
-        rateList.add(40f);
-        ringView.setShow(colorList, rateList, false, true);
+        rateList.add(5f);
+        rateList.add(20f);
+        ringView.setShow(colorList, rateList, true, true);
+
+
+        pieGv.setRingWidthFactor(0.37f)
+
+
+        // 造例子数据
+
+        // 造例子数据
+        val groups: Array<PieGraphView.ItemGroup?> = arrayOfNulls<PieGraphView.ItemGroup>(3)
+
+        for (i in groups.indices) {
+            val itemGroup = PieGraphView.ItemGroup()
+            groups[i] = itemGroup
+            itemGroup.id = "zu@$i"
+            val items: Array<PieGraphView.Item?> = arrayOfNulls<PieGraphView.Item>(4)
+            itemGroup.items = items
+            var index=0
+            for (j in items.indices) {
+                val item = PieGraphView.Item()
+                item.id = "it@$index"
+                item.value = index* 24 + 24.0
+                item.color = colors.get(colorIndex++ % colors.size)
+                items[j] = item
+                index++
+            }
+
+        }
+
+        pieGv.setData(groups)
+
+
+//        pieGv.setItemChangeListener(PieGraphViewCopy.ItemChangeListener { group, item ->
+//            val msg = "group = " + group.id.toString() + ", item = " + item.id
+//            Log.d(KotlinActivity::class.java.getSimpleName(), msg)
+//        })
+
+//
 
 
 
@@ -98,6 +152,14 @@ class KotlinActivity : Activity(), View.OnClickListener {
         btn_camera.setOnClickListener(this)
         btn_notify.setOnClickListener(this)
         btn_pic.setOnClickListener(this)
+        getSharedPreferences("",Context.MODE_PRIVATE).edit1 {
+            putBoolean("ddd",false)
+        }
+
+        getSharedPreferences("",Context.MODE_PRIVATE).edit1 {
+            putBoolean("ddd",false)
+        }
+
     }
 
 
@@ -137,7 +199,7 @@ class KotlinActivity : Activity(), View.OnClickListener {
             R.id.btn_camera -> {
                 takePhoto()
             }
-            R.id.btn_pic->{
+            R.id.btn_pic -> {
 
             }
         }
@@ -148,10 +210,10 @@ class KotlinActivity : Activity(), View.OnClickListener {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         val bookService=retrofit.create(BookService::class.java)
-        bookService.getBookData().enqueue(object : Callback<List<Book>>{
+        bookService.getBookData().enqueue(object : Callback<List<Book>> {
             override fun onResponse(call: Call<List<Book>>, response: Response<List<Book>>) {
                 TODO("Not yet implemented")
-                val list=response.body()
+                val list = response.body()
 
             }
 
@@ -211,6 +273,28 @@ class KotlinActivity : Activity(), View.OnClickListener {
         val myThead= MyThead()
         myThead.start()
 
+        Thread(object :Runnable{
+            override fun run() {
+                println("is running")
+                var count="ddddd".lettersCount()
+            }
+
+        }).start()
+
+        Thread(Runnable {
+            println("is running")
+        }).start()
+
+        Thread({
+            println("is running")
+        }).start()
+
+        Thread{
+            println("is running")
+        }.start()
+
+
+
         Thread{
 
         }.start()
@@ -230,6 +314,7 @@ class KotlinActivity : Activity(), View.OnClickListener {
 
         }
     }
+
     val handler=object :Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
@@ -238,7 +323,7 @@ class KotlinActivity : Activity(), View.OnClickListener {
 
     fun start(){
         startActivity2<MainActivity>(this){
-            putExtra("","")
+            putExtra("", "")
         }
     }
 
@@ -300,7 +385,7 @@ class KotlinActivity : Activity(), View.OnClickListener {
         vars(1, 2, 3, 5, 6)
         logUtil(sumLambda(1, 2))
         logUtil(getStringLength(123))
-        Toast.makeText(this, "ddd", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "ddd", Toast.LENGTH_LONG).show()
 
         //区间
         for (i in 1..4) {
@@ -418,6 +503,7 @@ class KotlinActivity : Activity(), View.OnClickListener {
     val xx: LongArray = longArrayOf(1, 2, 3)
 
 
+
     fun main11() {
         val text = """
     |多行字符串
@@ -466,6 +552,7 @@ class KotlinActivity : Activity(), View.OnClickListener {
 
         val items = listOf("apple", "banana", "kiwi")
         for (item in items) {
+
             println(item)
         }
 
@@ -493,6 +580,10 @@ class KotlinActivity : Activity(), View.OnClickListener {
             print(it)
         }
 
+    }
+
+    override fun onItemSelected(group: PieGraphView.ItemGroup?, item: PieGraphView.Item?) {
+        TODO("Not yet implemented")
     }
 
 
