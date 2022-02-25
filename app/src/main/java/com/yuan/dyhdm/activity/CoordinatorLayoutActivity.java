@@ -320,7 +320,6 @@ public  class CoordinatorLayoutActivity extends BaseActivity {
             final int MARGIN = 10;//左右边距一般是10,首尾特殊处理
             int left = StringUtils.dip2px(mContext, MARGIN);
             int right = StringUtils.dip2px(mContext, MARGIN);
-            //"https://imgwcs1.soufunimg.com/album/2020_03/05/3bfef85b-3102-4346-bbf8-7481a1bf1cd4.gif"
             commonPagerTitleView.setPadding(left, 0, right, 0);
             commonPagerTitleView.setOnClickListener(view -> {
                     viewpager.setCurrentItem(position);
