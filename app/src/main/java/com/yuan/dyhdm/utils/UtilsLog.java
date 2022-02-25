@@ -41,6 +41,11 @@ public class UtilsLog {
         }
     }
 
+    public static void i( String value) {
+        if (isTest) {
+            android.util.Log.i("log", value);
+        }
+    }
     public static void e(String key, String value) {
         if (isTest&&value!=null) {
             android.util.Log.e(key, value);

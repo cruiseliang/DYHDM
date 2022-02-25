@@ -24,6 +24,7 @@
         <activity android:name=".activity.MaterialDesign"/>
         <activity android:name=".activity.JetpackAct"/>
         <activity android:name=".activity.ZDYViewActivity"/>
+        <activity android:name=".activity.CoordinatorLayoutActivity"/>
         <activity android:name=".activity.ScrollviewActivity"
             android:theme="@style/AppTheme"/>
         <service android:name=".service.MyService"

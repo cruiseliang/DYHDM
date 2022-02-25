@@ -38,7 +38,7 @@ public class StringUtils {
     }
 
     public static int dip2px(float dpValue) {
-        final float scale = MyApplication.Companion.getSelf().getResources().getDisplayMetrics().density;
+        final float scale = MyApplication.mContext.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 

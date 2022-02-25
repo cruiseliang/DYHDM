@@ -81,6 +81,7 @@ public class MainActivity extends BaseActivity {
         mList.add(new HomeNavigationInfo("JetpackAct",JetpackAct.class));
         mList.add(new HomeNavigationInfo("自定义view",ZDYViewActivity.class));
         mList.add(new HomeNavigationInfo("自定义scrollview",ScrollviewActivity.class));
+        mList.add(new HomeNavigationInfo("滑动置顶recylerview",CoordinatorLayoutActivity.class));
     }
 
 }
