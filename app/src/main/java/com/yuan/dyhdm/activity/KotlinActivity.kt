@@ -20,6 +20,7 @@ import com.yuan.dyhdm.`interface`.BookService
 import com.yuan.dyhdm.adapter.lv.ChatAdapter
 import com.yuan.dyhdm.entity.Book
 import com.yuan.dyhdm.entity.ChatMessage
+import com.yuan.dyhdm.utils.UtilsLog
 import com.yuan.dyhdm.utils.doSomething
 import com.yuan.dyhdm.utils.open
 import com.yuan.dyhdm.utils.startActivity2
@@ -69,9 +70,28 @@ class KotlinActivity : Activity(), View.OnClickListener,ItemChangeListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.act_kotline)
+        if(::msg.isInitialized){
+
+        }
+
+        val input=openFileInput("data")
+        val reader=BufferedReader(InputStreamReader(input))
+        reader.use {
+            reader.forEachLine {
+
+            }
+        }
+
+
+
         initView()
         init()
         tv_title.setText("extension code ")
+      val aaa=  KotlinActivity::class
+        //javaclass 等于java getclass()
+        UtilsLog.e("tag",javaClass.name)
+
+
 
 
 
@@ -563,6 +583,40 @@ class KotlinActivity : Activity(), View.OnClickListener,ItemChangeListener {
         for ((index, value) in items.withIndex()) {
             println("$index and $value")
         }
+        var mapfruit=HashMap<String,String>()
+        mapfruit.put("Appale","1")
+        mapfruit["pera"]="2"
+
+      var pear=  mapfruit.get("pera")
+        pear=mapfruit["pera"]
+
+       val mapfruit2= mapOf("Appale" to "1","pee" to "d")
+        for ((name,num) in mapfruit2){
+
+        }
+
+        //lambda编程
+        //定义：一小段可以作为参数传递的代码  {参数1：参数类型 参数2 ：参数类型2->函数体}
+        //最后一行代码作为返回值，当lambda参数是函数最后一个参数时候可以移到括号外面  当表达式只有一个参数时候 不需要声明 用it代替
+        val lambda={fruit:String->fruit.length}
+        val maxlength=items.maxBy(lambda)
+
+        var resule= with(java.lang.StringBuilder()){
+            append("ddd")
+            toString()
+        }
+
+         resule= java.lang.StringBuilder().run{
+            append("ddd")
+            toString()
+        }
+
+
+       val resule2= java.lang.StringBuilder().apply{
+            append("ddd")
+
+        }
+
 
         loop@ for (i in 1..9) {
 
@@ -579,6 +633,9 @@ class KotlinActivity : Activity(), View.OnClickListener,ItemChangeListener {
             if (it is String) return@lit
             print(it)
         }
+
+
+
 
     }
 

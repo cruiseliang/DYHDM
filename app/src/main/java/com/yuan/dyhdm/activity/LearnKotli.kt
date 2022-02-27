@@ -11,6 +11,27 @@ import kotlin.math.max
  */
 fun main() {
 
+    /**
+     *
+     * 记录kotlin各种语法糖
+     * 1、当一个函数只有一行代码的时候，不必编写函数体，可以将唯一的一行代码写在函数尾部，中间用等号连接即可
+     * fun maxNumber(param1: Int, param2: Int): Int = max(param1, param2)
+     * 2、类型推导机制
+     * fun maxNumber(param1: Int, param2: Int) = max(param1, param2)
+     *
+     * 3、 if语句 带返回值  返回值就是if语句每一个条件中最后一行代码的返回值
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     */
+
     val b = 15
     var a = 10
     a = 18
@@ -21,11 +42,15 @@ fun main() {
     var de: Float = 16.44F
     var df: Boolean = false
     var dg: Char = 'a'
-    var dh: Byte = 111
+    var dh: Byte = 119
 
     a = a * 10
 
+    val inevale=100
+    val intvaldd=100.00
+    val da=inevale+intvaldd
 
+    println(da)
     val cellphone1 = Cellphone("dd", 19.0)
     val cellphone2 = Cellphone("dd", 15.0)
     val cellphone3 = cellphone1 + cellphone2
@@ -40,6 +65,7 @@ fun main() {
 }
 
 fun methodname(param1: Int, param2: Int): Int {
+
     return max(param1, param2)
 }
 
@@ -48,7 +74,7 @@ fun largeNumber1(param1: Int,param2: Int):Int{
 }
 
 //语法糖简化
-fun maxNumber(param1: Int, param2: Int): Int = max(param1, param2)
+fun maxNumber(param1: Int, param2: Int) = max(param1, param2)
 
 //条件语句 if 和java相同
 //不同 可有返回值
@@ -150,11 +176,6 @@ fun forMehtod() {
         println(i)
     }
 }
-
-
-
-
-
 
 
 

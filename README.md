@@ -10,7 +10,17 @@ https://blog.csdn.net/lmj623565791/article/details/51118836/
  var(variable)声明一个可变的变量  
  对象数据类型 Int Long Short Float Double Boolean Char Byte  
 
- if when  while for   ..  until in downto
+判断语句
+ if  条件语句 if 和java相同，不同 可有返回值
+ when   when语句 switch  强于switch；when 有返回值 可以单行语法糖
+ 循环语句
+  while  和java一样
+  for  for in 循环
+
+  区间
+ 0 ..10 [0，10] 双端闭合区间   downto 降序 10 dawnTo 1 [10,1]
+ 左闭右开区间 0 until 10  [0,10)
+   ..  until in downto
 
 抽象类可以被继承 非抽象类  添加 open 关键字进行继承 
  
@@ -18,10 +28,11 @@ https://blog.csdn.net/lmj623565791/article/details/51118836/
 次构造函数 constructor
 
 继承 ： 实现 ，
+接口中允许定义的函数进行默认实现
 修饰符 public  private  protected internal(统一模块可用)  
 data 声明bean类
 object 单例
-lambda编程
+
 listof()  不可变的数据list 只可以读取 不可以删除 添加 修改
 mutablelistof()    可以删除 添加 修改
 setof() 
@@ -29,11 +40,15 @@ mutablesetof()
 mapof() 
 mutablemapof()
 
-函数 filter 
+
+lambda编程
+定义：一小段可以作为参数传递的代码
+函数 filter 过滤
 any(集合中存在一个满足条件) 
 all （集合中 全部满足条件）
  
-kotlin 调用java单方法抽象类 函数式API  匿名内部类 object 关键字 
+java 函数式API：kotlin 调用java方法，且该方法接收一个java单抽象方法接口（接口中只有一个待实现方法）参数
+ 匿名内部类 object 关键字
 
 空指针检查机制  操作符 ？ 可以为空 
 判空辅助工具 ?.  不为空 可执行后续方法
@@ -45,12 +60,13 @@ kotlin标准函数 standard.kt文件中的函数
 let 辅助判空 obj?.let{
 obj2->具体操作
 }
-${} 字符串内嵌表达式 
+${} 字符串内嵌表达式 ，表达式中仅有一个变量的时候大括号可以省略
 函数的参数默认值 fun pri(par:Int=9)
 
-with
+标准函数  同一对象重复调用简化
+with 接收2个参数 第一个 任意类型对象 第二个Lambda表达式  并将第一个的上下文传递给Lambda
 run 函数 只接收一个lambda参数 
-apply  同一对象重复调用简化
+apply  类似run  只接收一个lambda参数  无法指定返回值 返回调用对象本身
 
 
 字符串内嵌表达式 ${}
@@ -150,12 +166,23 @@ Dispatchers.Main 在android主线程调用
 立马执行代码块 阻塞当前协程 最后一行代码做为返回值 类似async的简化版
 
 8、协程简化回调 
-suspendCoroutine函数 在协程作用域或者挂起函数中使用 接收lambda表达式 
+suspendCoroutine函数 在协程作用域或者挂起函数中使用 接收lambda表达式 领了
 suspend(暂停 挂起)Coroutine（协程）
 
 
 DSL
 
+android 中可以优化
+kotlin-android-extensions 自动findviewbyid
+在adapter也可以使用 view.id
+使用apply函数简化 intent传承
+使用java函数式API 简化 thread  onclick 方法
+java中调用kotlin静态方法需要使用注解 @jvmstatic 或者顶层方法
 
+const 常量关键字  只有在单例类或者 companinon object 或者顶层方法使用
+判断全局变量是否初始化 if(::msg.isInitialized){
+
+使用泛型实例化优化startactivity  418页
+                    }
 
 
