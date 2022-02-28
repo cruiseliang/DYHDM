@@ -194,7 +194,7 @@ class KotlinActivity : Activity(), View.OnClickListener,ItemChangeListener {
         editor.apply()
 
         getSharedPreferences("data", Context.MODE_PRIVATE).open {
-            putString("key", "value1")
+            this.putString("key", "value1")
 
         }
     }
