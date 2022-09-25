@@ -7,5 +7,7 @@ package com.yuan.dyhdm.entity
  */
 interface Study {
     fun read()
-    fun doHomework()
+    fun doHomework(){
+        println("doHomework")
+    }
 }
