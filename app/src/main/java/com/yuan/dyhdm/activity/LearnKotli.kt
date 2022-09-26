@@ -2,6 +2,7 @@ package com.yuan.dyhdm.activity
 
 import com.yuan.dyhdm.entity.Cellphone
 import com.yuan.dyhdm.entity.Person
+import java.util.*
 import kotlin.math.max
 
 
@@ -20,14 +21,6 @@ fun main() {
      * fun maxNumber(param1: Int, param2: Int) = max(param1, param2)
      *
      * 3、 if语句 带返回值  返回值就是if语句每一个条件中最后一行代码的返回值
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
      *
      *
      */
@@ -62,9 +55,11 @@ fun main() {
 //    println("largeNunber" + largeNunber(18, 20))
 //    chechNumber(a)
 //    forMehtod()
+    visitArrayValue()
 }
 
 fun methodname(param1: Int, param2: Int): Int {
+
 
     return max(param1, param2)
 }
@@ -180,7 +175,32 @@ fun forMehtod() {
 
 
 
+/*
+访问数组元素
+ */
+fun visitArrayValue() {
+    var arr1 = arrayOf("kotlin", "java", "python")
+    //使用两种方式获取数组元素
+    println(arr1[0])
 
+    println(arr1.get(0))
+    println(arr1.get(0))
+    //使用两种方式修改数组元素
+    arr1[1] = "noJava"
+    arr1.set(1,"nojava")
+    for (datas in arr1){
+        println(datas)
+    }
+
+    for (i in arr1.indices) {
+        println(arr1[i])
+    }
+    for(i in 0..10){
+        println(i)
+    }
+
+    println(Arrays.toString(arr1))
+}
 
 
 

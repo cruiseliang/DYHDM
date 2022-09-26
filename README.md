@@ -11,26 +11,27 @@ https://blog.csdn.net/lmj623565791/article/details/51118836/
  对象数据类型 Int Long Short Float Double Boolean Char Byte  
 
 判断语句
- if  条件语句 if 和java相同，不同 可有返回值
+ if  条件语句： if 和java基本相同，不同的是 可有返回值
  when   when语句 switch  强于switch；when 有返回值 可以单行语法糖
  循环语句
   while  和java一样
   for  for in 循环
-
+for-in 循环可以自动遍历数组的每个元素
   区间
  0 ..10 [0，10] 双端闭合区间   downto 降序 10 dawnTo 1 [10,1]
  左闭右开区间 0 until 10  [0,10)
    ..  until in downto
-
+关键字 step  跳过几 用于循环
+判断对象或者字符串是否相等使用==
 抽象类可以被继承 非抽象类  添加 open 关键字进行继承 
  
 主构造函数   逻辑部分在init{}方法中写
 次构造函数 constructor
 
 继承 ： 实现 ，
-接口中允许定义的函数进行默认实现
+接口中数允许定义的函进行默认实现
 修饰符 public  private  protected internal(统一模块可用)  
-data 声明bean类
+data class 声明bean类
 object 单例
 
 listof()  不可变的数据list 只可以读取 不可以删除 添加 修改
@@ -43,6 +44,7 @@ mutablemapof()
 
 lambda编程
 定义：一小段可以作为参数传递的代码
+语法结构： {参数名1：参数类型,参数名2：参数类型 ->函数体}  函数体的最后一行作为表达式返回值
 函数 filter 过滤
 any(集合中存在一个满足条件) 
 all （集合中 全部满足条件）
@@ -69,7 +71,6 @@ run 函数 只接收一个lambda参数
 apply  类似run  只接收一个lambda参数  无法指定返回值 返回调用对象本身
 
 
-字符串内嵌表达式 ${}
 
 静态方法 java  static 
 kotlin软化了静态方法 1、使用单例类进行替换 object 关键字 单例类方法都可以直接调用
@@ -89,10 +90,14 @@ Util.doaction()
 判断变量是否初始化 :: 对象.isInitialized
 密封类关键字 sealed class 减少when 选择语句时候 else
 
- 扩展函数  
+ 扩展函数  :在不修改某个类的源码的情况下，仍然可以打开这个类，想该类添加新的函数；pg:String 增加dp2px方法
  运算符重载 关键字 operator
 
-高阶函数 Cellphone.kt
+kotlin高级用法：
+高阶函数 ：如果一个函数接收另一个函数作为参数，或者返回值的类型是另一个函数，那么该函数就称为高阶函数
+函数类型表达式 （String,Int） ->Unit
+高阶函数引用使用 ::plus
+Cellphone.kt
 对应java 的实现方法是 匿名内部类 每次使用创建类 增加内存和性能开销
 内联函数 关键字 inline 去除开销  非内联函数 noinline 
 内联函数使用return进行返回  非内联进行局部返回
@@ -185,4 +190,9 @@ const 常量关键字  只有在单例类或者 companinon object 或者顶层�
 使用泛型实例化优化startactivity  418页
                     }
 
-
+kotlin各种语法糖
+1、当一个函数只有一行代码的时候，不必编写函数体，可以将唯一的一行代码写在函数尾部，中间用等号连接即可
+fun maxNumber(param1: Int, param2: Int): Int = max(param1, param2)
+2、类型推导机制
+fun maxNumber(param1: Int, param2: Int) = max(param1, param2)
+3、 if语句 带返回值  返回值就是if语句每一个条件中最后一行代码的返回值

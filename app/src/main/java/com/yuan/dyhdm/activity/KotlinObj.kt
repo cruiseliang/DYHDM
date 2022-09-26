@@ -17,6 +17,7 @@ fun main(){
     val  stu=Student("122",10)
 
     val cellphone=Cellphone("123",189.99)
+
     //实体类data 关键字
     println(cellphone.toString())
     //单例 object 关键字
