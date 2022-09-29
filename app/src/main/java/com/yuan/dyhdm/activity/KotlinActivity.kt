@@ -27,6 +27,7 @@ import com.yuan.dyhdm.utils.startActivity2
 import com.yuan.dyhdm.view.PieGraphView
 import com.yuan.dyhdm.view.PieGraphView.ItemChangeListener
 import com.yuan.dyhdm.view.PieGraphViewCopy
+import com.yuan.dyhdm.view.RoundImageView
 import kotlinx.android.synthetic.main.act_kotline.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -60,10 +61,11 @@ class KotlinActivity : Activity(), View.OnClickListener,ItemChangeListener {
     val s3 = "${s1.replace("is", "was")}, but now is $a"
 
     //单行
-    var colorList = ArrayList<Int>();
+    var colorList = ArrayList<Int>()
     var rateList =  ArrayList<Float>()
 
     private val colors = intArrayOf(-0x64245, -0xc93a0, -0x316c28, -0x504001, -0x4d2025, -0xff533f, -0x3223c7, -0xda64dc)
+
 
     private var colorIndex = 0
 
@@ -73,6 +75,8 @@ class KotlinActivity : Activity(), View.OnClickListener,ItemChangeListener {
         if(::msg.isInitialized){
 
         }
+
+
 
         val input=openFileInput("data")
         val reader=BufferedReader(InputStreamReader(input))

@@ -32,7 +32,7 @@ for-in 循环可以自动遍历数组的每个元素
 接口中数允许定义的函进行默认实现
 修饰符 public  private  protected internal(统一模块可用)  
 data class 声明bean类
-object 单例
+object 单例    匿名内部类 object 关键字
 
 listof()  不可变的数据list 只可以读取 不可以删除 添加 修改
 mutablelistof()    可以删除 添加 修改
@@ -50,7 +50,7 @@ any(集合中存在一个满足条件)
 all （集合中 全部满足条件）
  
 java 函数式API：kotlin 调用java方法，且该方法接收一个java单抽象方法接口（接口中只有一个待实现方法）参数
- 匿名内部类 object 关键字
+
 
 空指针检查机制  操作符 ？ 可以为空 
 判空辅助工具 ?.  不为空 可执行后续方法
@@ -119,7 +119,7 @@ mapof(A to B ) to 是infix函数 构建键值对
 
 协程 高效并发处理
 
-1、GlobalScope.launch函数 创建 协程作用域   顶层协程 管理不方便 线程运行结束 来不及执行
+1、GlobalScope.launch函数 创建 协程作用域   顶层协程 管理不方便 线程运行结束 来不及执行  不推荐使用
 GlobalScope.launch {
 //        print("codes run in scope")
 delay(500)
@@ -146,6 +146,7 @@ launch {
     }
 4、suspend 关键字 将任意函数声明为挂起函数 挂起函数之间可以互相调用 不提供作用域
 5、coroutineScope函数 是挂起函数    继承外部协程作用域，创建子协程 提供协程作用域
+保证其作用域内的所有代码和子协程执行完毕之前 外部的协程一直挂起
 阻塞当前协程 不影响其他协程和线程
 
 suspend fun printDot2()= coroutineScope {
@@ -163,7 +164,7 @@ val result=async {
 }.await()
 println(result)
 }
-7、withContext()函数 接收一个线程参数    
+7、withContext()函数 接收一个线程参数     
 Dispatchers.Default 计算密集型任务
 Dispatchers.IO  使用一种高并发线程策略 网络请求
 Dispatchers.Main 在android主线程调用
@@ -171,7 +172,8 @@ Dispatchers.Main 在android主线程调用
 立马执行代码块 阻塞当前协程 最后一行代码做为返回值 类似async的简化版
 
 8、协程简化回调 
-suspendCoroutine函数 在协程作用域或者挂起函数中使用 接收lambda表达式 领了
+
+suspendCoroutine函数 在协程作用域或者挂起函数中使用 接收lambda表达式  结合协程一起使用 
 suspend(暂停 挂起)Coroutine（协程）
 
 
@@ -179,6 +181,7 @@ DSL
 
 android 中可以优化
 kotlin-android-extensions 自动findviewbyid
+在fragment中 在onviewCreated 调用initview 
 在adapter也可以使用 view.id
 使用apply函数简化 intent传承
 使用java函数式API 简化 thread  onclick 方法
