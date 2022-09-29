@@ -125,7 +125,7 @@ GlobalScope.launch {
 delay(500)
 }
 
-2、 runBlocking函数 创建 协程作用域  测试用 挂起协程和线程 实际使用影响性能 不推荐使用
+2、 runBlocking函数 创建 协程作用域 保证在协程作用域内的所有代码和子协程没有完全执行完之前一直阻塞当前线程 挂起协程和线程 实际使用影响性能 不推荐使用  测试用
 runBlocking {
 println("codes run in scope")
 delay(500)
@@ -155,8 +155,15 @@ launch {
 println("c")
 }
 }
+项目中经常使用模板  只能通过job进行取消 没法获取返回值
+val job=Job()
+val scope= CoroutineScope(job)
+scope.launch {
+println("ddddd")
+}
+job.cancel()
 
-6、async函数 创建子协程 返回Deferred 对象  await()方法返回执行结果  await()方法阻塞当前协程
+6、async函数 协程作用域中进行调用 创建子协程 返回Deferred 对象  await()方法返回执行结果  await()方法阻塞当前协程
 runBlocking {
 //async 创建子协程 返回Deferred 对象  await()方法返回执行结果
 val result=async {
@@ -164,7 +171,7 @@ val result=async {
 }.await()
 println(result)
 }
-7、withContext()函数 接收一个线程参数     
+7、withContext()挂起函数 接收一个线程参数  async函数的简化版 直接返回执行结果    
 Dispatchers.Default 计算密集型任务
 Dispatchers.IO  使用一种高并发线程策略 网络请求
 Dispatchers.Main 在android主线程调用
@@ -173,7 +180,8 @@ Dispatchers.Main 在android主线程调用
 
 8、协程简化回调 
 
-suspendCoroutine函数 在协程作用域或者挂起函数中使用 接收lambda表达式  结合协程一起使用 
+suspendCoroutine函数 在协程作用域或者挂起函数中使用 接收lambda表达式 主要作用是挂起当前协程，然后在一个普通线程里面执行lambda表达式的代码，Lambda
+表达式的参数列表会传入一个Continuation参数，调用它的resume方法或者resumewithException()可以让协程恢复执行 结合协程一起使用
 suspend(暂停 挂起)Coroutine（协程）
 
 

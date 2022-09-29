@@ -9,10 +9,7 @@ import kotlinx.coroutines.*
  */
 
 fun main() = runBlocking { // this: CoroutineScope
-    launch {
-        delay(200L)
-        println("Task from runBlocking")
-    }
+
 
     coroutineScope { // 创建一个协程作用域
         launch {
@@ -24,5 +21,10 @@ fun main() = runBlocking { // this: CoroutineScope
         println("Task from coroutine scope") // 这一行会在内嵌 launch 之前输出
     }
 
+
+    launch {
+        delay(200L)
+        println("Task from runBlocking")
+    }
     println("Coroutine scope is over") // 这一行在内嵌 launch 执行完毕后才输出
 }
