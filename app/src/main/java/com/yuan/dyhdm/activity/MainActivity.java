@@ -12,6 +12,8 @@ import com.yuan.dyhdm.base.BaseActivity;
 import com.yuan.dyhdm.base.commonlistadapter.CommonAdapterForListView;
 import com.yuan.dyhdm.base.commonlistadapter.CommonAdapterViewHolder;
 import com.yuan.dyhdm.entity.HomeNavigationInfo;
+import com.yuan.dyhdm.utils.ReflexionUtils;
+import com.yuan.dyhdm.utils.TestHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        TestHelper.testConstructor();
     }
 
     @Override

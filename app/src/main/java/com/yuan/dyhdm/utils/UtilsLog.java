@@ -52,6 +52,38 @@ public class UtilsLog {
         }
     }
 
+
+    public static void e(String  key, Object value) {
+        if (isTest&&value!=null) {
+            if (value instanceof Object[]){
+                Object[] arr= (Object[]) value;
+                for (Object obj:arr){
+                    android.util.Log.e(key, value.toString());
+                }
+
+            }else {
+                android.util.Log.e(key,value.toString());
+            }
+
+        }
+    }
+
+    public static void print(Object value) {
+        if (isTest&&value!=null) {
+            if (value instanceof Object[]){
+                Object[] arr= (Object[]) value;
+                for (Object obj:arr){
+                    android.util.Log.e("test",obj.toString());
+                }
+
+            }else {
+                android.util.Log.e("test",value.toString());
+            }
+
+        }
+    }
+
+
     public static void w(String key, String value) {
 
 

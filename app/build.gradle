@@ -51,7 +51,7 @@ dependencies {
     implementation rootProject.ext.dependencies["glide"]
     implementation rootProject.ext.dependencies["androidx-recyclerview"]
     implementation rootProject.ext.dependencies["lifecycle-viewmodel"]
-
+    implementation rootProject.ext.dependencies["rxjava"]
     compile 'com.zhy:base-rvadapter:3.0.3'
     implementation 'androidx.cardview:cardview:1.0.0'
 

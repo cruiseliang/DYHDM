@@ -1,10 +1,7 @@
 package com.yuan.dyhdm.activity
 
 import com.yuan.dyhdm.entity.Cellphone
-import com.yuan.dyhdm.entity.Person
-import com.yuan.dyhdm.entity.Singleton
 import com.yuan.dyhdm.entity.Student
-import com.yuan.dyhdm.view.RoundImageView
 
 
 /**

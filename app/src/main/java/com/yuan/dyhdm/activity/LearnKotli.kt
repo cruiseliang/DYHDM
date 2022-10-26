@@ -1,7 +1,6 @@
 package com.yuan.dyhdm.activity
 
 import com.yuan.dyhdm.entity.Cellphone
-import com.yuan.dyhdm.entity.Person
 import java.util.*
 import kotlin.math.max
 
