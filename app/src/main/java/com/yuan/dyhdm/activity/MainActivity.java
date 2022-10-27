@@ -1,10 +1,14 @@
 package com.yuan.dyhdm.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import com.yuan.dyhdm.R;
 import com.yuan.dyhdm.adapter.MyAdapter;
@@ -12,6 +16,8 @@ import com.yuan.dyhdm.base.BaseActivity;
 import com.yuan.dyhdm.base.commonlistadapter.CommonAdapterForListView;
 import com.yuan.dyhdm.base.commonlistadapter.CommonAdapterViewHolder;
 import com.yuan.dyhdm.entity.HomeNavigationInfo;
+import com.yuan.dyhdm.utils.AnnotationUtils;
+import com.yuan.dyhdm.utils.HookUtils;
 import com.yuan.dyhdm.utils.ReflexionUtils;
 import com.yuan.dyhdm.utils.TestHelper;
 
@@ -24,12 +30,23 @@ public class MainActivity extends BaseActivity {
 
     private MyAdapter mAdapter;
     private List<HomeNavigationInfo> mList;
+    private TextView tv_hook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TestHelper.testConstructor();
+//        TestHelper.testConstructor();
+
+        try {
+
+            AnnotationUtils.parseConstructAnnotation();
+            AnnotationUtils.parseTypeAnnotation();
+            AnnotationUtils.parseMethodAnnotation();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -65,13 +82,29 @@ public class MainActivity extends BaseActivity {
     @Override
     public  void initView() {
         mListView = (ListView) findViewById(R.id.id_lv_main);
+        tv_hook=findViewById(R.id.tv_hook);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void registerListener() {
+        HookUtils.createNotificationChannel(mContext);
+        tv_hook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HookUtils.testNotifiy(mContext);
+            }
+        });
 
+        try {
+//            HookUtils.hookOnClickListener(tv_hook);
+
+            HookUtils.hookNotificationManager(mContext);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
     }
-
 
     private void  initListData(){
 
