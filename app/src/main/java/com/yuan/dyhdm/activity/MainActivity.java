@@ -16,7 +16,10 @@ import com.yuan.dyhdm.base.BaseActivity;
 import com.yuan.dyhdm.base.commonlistadapter.CommonAdapterForListView;
 import com.yuan.dyhdm.base.commonlistadapter.CommonAdapterViewHolder;
 import com.yuan.dyhdm.entity.HomeNavigationInfo;
+import com.yuan.dyhdm.entity.UserProxy1;
+import com.yuan.dyhdm.interfaceP.ISubjectKT;
 import com.yuan.dyhdm.utils.AnnotationUtils;
+import com.yuan.dyhdm.utils.DynamicProxy;
 import com.yuan.dyhdm.utils.HookUtils;
 import com.yuan.dyhdm.utils.ReflexionUtils;
 import com.yuan.dyhdm.utils.TestHelper;
@@ -36,16 +39,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        TestHelper.testConstructor();
 
-        try {
-
-            AnnotationUtils.parseConstructAnnotation();
-            AnnotationUtils.parseTypeAnnotation();
-            AnnotationUtils.parseMethodAnnotation();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -92,12 +86,22 @@ public class MainActivity extends BaseActivity {
         tv_hook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HookUtils.testNotifiy(mContext);
+//                HookUtils.testNotifiy(mContext);
+//                try {
+//
+//                    AnnotationUtils.parseConstructAnnotation();
+//                    AnnotationUtils.parseTypeAnnotation();
+//                    AnnotationUtils.parseMethodAnnotation();
+//                } catch (ClassNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+
+              HookUtils.testProxy();
             }
         });
 
         try {
-//            HookUtils.hookOnClickListener(tv_hook);
+            HookUtils.hookOnClickListener(tv_hook);
 
             HookUtils.hookNotificationManager(mContext);
         } catch (Exception e) {

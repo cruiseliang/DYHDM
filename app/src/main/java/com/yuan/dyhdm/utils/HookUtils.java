@@ -13,6 +13,8 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.yuan.dyhdm.R;
+import com.yuan.dyhdm.entity.UserProxy1;
+import com.yuan.dyhdm.interfaceP.ISubjectKT;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
@@ -102,6 +104,26 @@ private static  final  String TAG=HookUtils.class.getName();
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationChannel channel = new NotificationChannel("immm", "消息", 3);
         notificationManager.createNotificationChannel(channel);
+    }
+
+
+    public static void testProxy(){
+        //ProxySubject  模拟实现类
+        // 1. 创建调用处理器类对象
+        DynamicProxy DynamicProxy = new DynamicProxy();
+
+        // 2. 创建目标对象对象
+        UserProxy1 mBuyer1 = new UserProxy1();
+
+        // 3. 创建动态代理类 & 对象：通过调用处理器类对象newProxyInstance（）
+        // 传入上述目标对象对象
+        ISubjectKT Buyer1_DynamicProxy = (ISubjectKT) DynamicProxy.newProxyInstance(mBuyer1);
+
+        // 4. 通过调用动态代理对象方法从而调用目标对象方法
+        // 实际上是调用了invoke（），再通过invoke（）里的反射机制调用目标对象的方法
+        Buyer1_DynamicProxy.buybuybuy("mac电脑");
+        Buyer1_DynamicProxy.sale("苹果手机");
+
     }
 
 
